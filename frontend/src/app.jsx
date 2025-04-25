@@ -1,21 +1,26 @@
+// App.jsx
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import FormPage from './pages/FormPage';
-import DetailPage from './pages/DetailPage';
-import Header from './components/Header';
+import Header from './components/header';
+import Home from './pages/home';
+import FormPage from './pages/formPage';
+import DetailPage from './pages/detailPage';
+import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <Header />
-      <main style={{ padding: '20px' }}>
+    <div className="App">
+      <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/tenis/novo" element={<FormPage />} />
-          <Route path="/tenis/editar/:id" element={<FormPage />} />
-          <Route path="/tenis/:id" element={<DetailPage />} />
+          <Route path="/novo" element={<FormPage />} />
+          <Route path="/editar/:id" element={<FormPage />} />
+          <Route path="/detalhes/:id" element={<DetailPage />} />
         </Routes>
-      </main>
-    </Router>
+      </Router>
+    </div>
   );
-}
+};
+
+export default App; 

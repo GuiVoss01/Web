@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import tennisRoutes from '../routes/tennisRoutes.js'; 
+import tennisRoutes from '/routes/tennisRoutes.js'; 
 import { db } from './db.js';
 
 const app = express();

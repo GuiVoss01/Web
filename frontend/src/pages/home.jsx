@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TennisList from '../components/TennisList';
+import TennisList from '../components/tennisList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <h2>Lista de Tênis</h2>
-      <Link className="add-btn" to="/novo">+ Adicionar Novo Tênis</Link>
+      <Link to="/tenis/novo">Adicionar Novo Tênis</Link>
       <TennisList tenis={tenis} onDelete={handleDelete} />
     </div>
   );
