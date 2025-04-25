@@ -1,49 +1,59 @@
 import { Tennis } from '../models/tennis.js';
 
-export const tennisController = {
-  getAllTennis: async (req, res) => {
+// Objeto controller com todas as funções CRUD
+const tennisController = {
+  getAllTennis: async (req, res, next) => {
     try {
       const tennis = await Tennis.getAll();
       res.json(tennis);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err);
     }
   },
 
-  getTennisById: async (req, res) => {
+  getTennisById: async (req, res, next) => {
     try {
       const tennis = await Tennis.getById(req.params.id);
       if (!tennis) return res.status(404).json({ error: 'Tênis não encontrado' });
       res.json(tennis);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err);
     }
   },
 
-  createTennis: async (req, res) => {
+  createTennis: async (req, res, next) => {
     try {
       const newTennis = await Tennis.create(req.body);
       res.status(201).json(newTennis);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      next(err);
     }
   },
 
-  updateTennis: async (req, res) => {
+  updateTennis: async (req, res, next) => {
     try {
       const updatedTennis = await Tennis.update(req.params.id, req.body);
+      if (!updatedTennis) {
+        return res.status(404).json({ error: 'Tênis não encontrado' });
+      }
       res.json(updatedTennis);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      next(err);
     }
   },
 
-  deleteTennis: async (req, res) => {
+  deleteTennis: async (req, res, next) => {
     try {
-      await Tennis.delete(req.params.id);
+      const deleted = await Tennis.delete(req.params.id);
+      if (!deleted) {
+        return res.status(404).json({ error: 'Tênis não encontrado' });
+      }
       res.status(204).send();
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err);
     }
   }
 };
+
+// Exportação do controller
+export { tennisController };

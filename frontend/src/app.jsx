@@ -5,7 +5,7 @@ import Header from './components/header';
 import Home from './pages/home';
 import FormPage from './pages/formPage';
 import DetailPage from './pages/detailPage';
-import './App.css';
+import './app.css';
 
 const App = () => {
   return (

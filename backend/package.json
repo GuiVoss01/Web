@@ -1,23 +1,17 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "API para CRUD de tênis",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "mysql2": "^3.6.5",
-    "cors": "^2.8.5"
+    "mysql2": "^3.14.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

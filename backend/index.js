@@ -1,33 +1,33 @@
 import express from 'express';
 import cors from 'cors';
-import tennisRoutes from '/routes/tennisRoutes.js'; 
-import { db } from './db.js';
+import tennisRoutes from './routes/tennisRoutes.js';
 
 const app = express();
 const PORT = 3001;
 
-// Middlewares
-app.use(cors());
+// Configuração do CORS para o frontend
+app.use(cors({
+  origin: 'http://localhost:3000', // porta do React
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
+
 app.use(express.json());
 
-// Conexão com o MySQL
-db.connect(err => {
-  if (err) {
-    console.error('Erro ao conectar ao MySQL:', err);
-    return;
-  }
-  console.log('✅ Conectado ao MySQL');
-});
-
 // Rotas
-app.use('/api/tenis', tennisRoutes); // Prefixo para todas as rotas de tênis
+app.use('/api/tenis', tennisRoutes);
 
 // Rota de teste
-app.get('/', (req, res) => {
-  res.send('API do CRUD de Tênis está operacional!');
+app.get('/api', (req, res) => {
+  res.send('Backend do CRUD de Tênis está operacional!');
 });
 
-// Inicia o servidor
+// Tratamento de erros
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Erro interno do servidor' });
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+  console.log('Servidor backend rodando em http://localhost:${PORT}');
 });

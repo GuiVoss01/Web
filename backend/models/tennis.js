@@ -1,48 +1,29 @@
 import { db } from '../db.js';
 
 export const Tennis = {
-  getAll: () => {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM tenis', (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
+  getAll: async () => {
+    const [rows] = await db.query('SELECT * FROM tenis');
+    return rows;
   },
 
-  getById: (id) => {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM tenis WHERE id = ?', [id], (err, results) => {
-        if (err) return reject(err);
-        resolve(results[0]);
-      });
-    });
+  getById: async (id) => {
+    const [rows] = await db.query('SELECT * FROM tenis WHERE id = ?', [id]);
+    return rows[0] || null;
   },
 
-  create: (tennisData) => {
-    return new Promise((resolve, reject) => {
-      db.query('INSERT INTO tenis SET ?', tennisData, (err, results) => {
-        if (err) return reject(err);
-        resolve({ id: results.insertId, ...tennisData });
-      });
-    });
+  create: async (tennisData) => {
+    const [result] = await db.query('INSERT INTO tenis SET ?', tennisData);
+    return { id: result.insertId, ...tennisData };
   },
 
-  update: (id, tennisData) => {
-    return new Promise((resolve, reject) => {
-      db.query('UPDATE tenis SET ? WHERE id = ?', [tennisData, id], (err) => {
-        if (err) return reject(err);
-        resolve({ id, ...tennisData });
-      });
-    });
+  update: async (id, tennisData) => {
+    await db.query('UPDATE tenis SET ? WHERE id = ?', [tennisData, id]);
+    const [updated] = await db.query('SELECT * FROM tenis WHERE id = ?', [id]);
+    return updated[0] || null;
   },
 
-  delete: (id) => {
-    return new Promise((resolve, reject) => {
-      db.query('DELETE FROM tenis WHERE id = ?', [id], (err) => {
-        if (err) return reject(err);
-        resolve();
-      });
-    });
+  delete: async (id) => {
+    const [result] = await db.query('DELETE FROM tenis WHERE id = ?', [id]);
+    return result.affectedRows > 0;
   }
 };
